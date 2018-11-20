@@ -23,26 +23,27 @@ public class Minotauro {
 		for (int i = 0; i < matriz.length; i++) {
 			noConectados.add(i);
 		}
-		
+
 		int nodoActual = noConectados.get(0);
 		int costoMinimo = INFINITO;
 		int nodoMinimo = INFINITO;
 
-		while(noConectados.size() != 0) {
-			nodoActual = noConectados.get(0);
-			for (int i = 0; i < matriz.length; i++) {
-				if (nodoActual != i && (costoMinimo == INFINITO || this.matriz[nodoActual][i] < costoMinimo)) {
+		while (noConectados.size() != 0) {
+			nodoActual = noConectados.remove(0);
+
+			for (int i : noConectados) {
+				if (costoMinimo == INFINITO || this.matriz[nodoActual][i] < costoMinimo) {
 					costoMinimo = this.matriz[nodoActual][i];
 					nodoMinimo = i;
 				}
 			}
-			
+
 			conectados.add(nodoActual);
-			if (nodoMinimo != INFINITO) {
-				aristas.add(new Arista(nodoActual, nodoMinimo, costoMinimo));
+			if (nodoMinimo != INFINITO && nodoActual != nodoMinimo) {
+				aristas.add(new Arista(nodoActual + 1, nodoMinimo + 1, costoMinimo));
 			}
-			noConectados.remove(0);
 			conectados.add(nodoActual);
+			costoMinimo = INFINITO;
 		}
 		return aristas;
 	}
